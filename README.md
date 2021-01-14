@@ -17,3 +17,4 @@ https://github.com/apple/tensorflow_macos
 Make sure to follow the installation instructions that cover setting up a virtual environment! (Anaconda works also for non-M1 platforms)
 
 ### Step Three
+Run some tests!

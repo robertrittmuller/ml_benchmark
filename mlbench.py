@@ -1,10 +1,8 @@
 import tensorflow as tf
-import sys
 import os
 import platform
 import timeit
 import numpy as np
-import tensorflow_datasets as tfds
 from tensorflow import keras
 from tensorflow.keras import layers
 from datetime import datetime
@@ -35,12 +33,15 @@ display_output(envData,'TANH Activation Test', test2(5, 'tanh'))
 display_output(envData,'SIGMOID Activation Test', test2(5, 'sigmoid'))
 display_output(envData,'Resnet50 Fine Tuning Test', test3(5, feature_extractor_model="https://tfhub.dev/tensorflow/resnet_50/feature_vector/1"))
 display_output(envData,'MobilenetV2 Fine Tuning Test', test3(5, feature_extractor_model="https://tfhub.dev/google/tf2-preview/mobilenet_v2/feature_vector/4")) 
-display_output(envData,'Resnet50 Inference Test (Batch size = 1)', test4(1, classifier_model="https://tfhub.dev/tensorflow/resnet_50/classification/1"))         
-display_output(envData,'Resnet50 Inference Test (Batch size = 16)', test4(16, classifier_model="https://tfhub.dev/tensorflow/resnet_50/classification/1")) 
-display_output(envData,'Resnet50 Inference Test (Batch size = 32)', test4(32, classifier_model="https://tfhub.dev/tensorflow/resnet_50/classification/1")) 
+display_output(envData,'Inception V3 Inference Test (Batch size = 1)', test4(1, classifier_model="https://tfhub.dev/google/imagenet/inception_v3/classification/4"))         
+display_output(envData,'Inception V3 Inference Test (Batch size = 4)', test4(4, classifier_model="https://tfhub.dev/google/imagenet/inception_v3/classification/4")) 
+# display_output(envData,'Inception V3 Inference Test (Batch size = 8)', test4(8, classifier_model="https://tfhub.dev/google/imagenet/inception_v3/classification/4")) 
+display_output(envData,'EfficientNet-B0 Inference Test (Batch size = 1)', test4(1, classifier_model="https://tfhub.dev/tensorflow/efficientnet/b0/classification/1"))
+display_output(envData,'EfficientNet-B0 Inference Test (Batch size = 4)', test4(4, classifier_model="https://tfhub.dev/tensorflow/efficientnet/b0/classification/1"))
+# display_output(envData,'EfficientNet-B0 Inference Test (Batch size = 8)', test4(8, classifier_model="https://tfhub.dev/tensorflow/efficientnet/b0/classification/1"))
 display_output(envData,'MobilenetV2 Inference Test (Batch size = 1)', test4(1, classifier_model="https://tfhub.dev/google/tf2-preview/mobilenet_v2/classification/4"))
-display_output(envData,'MobilenetV2 Inference Test (Batch size = 16)', test4(16, classifier_model="https://tfhub.dev/google/tf2-preview/mobilenet_v2/classification/4"))
-display_output(envData,'MobilenetV2 Inference Test (Batch size = 32)', test4(32, classifier_model="https://tfhub.dev/google/tf2-preview/mobilenet_v2/classification/4"))
+display_output(envData,'MobilenetV2 Inference Test (Batch size = 4)', test4(4, classifier_model="https://tfhub.dev/google/tf2-preview/mobilenet_v2/classification/4"))
+# display_output(envData,'MobilenetV2 Inference Test (Batch size = 8)', test4(8, classifier_model="https://tfhub.dev/google/tf2-preview/mobilenet_v2/classification/4"))
 
 stop = timeit.default_timer()
 

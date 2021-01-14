@@ -3,7 +3,6 @@ import tensorflow as tf
 import tensorflow_hub as hub
 import timeit
 import sys
-import time
 
 class CollectBatchStats(tf.keras.callbacks.Callback):
   def __init__(self):
@@ -56,8 +55,11 @@ def test1(epochs=5):
     model1.fit(x_train, y_train, epochs=epochs)
     stop = timeit.default_timer()
 
-    # let's see how it did
-    results_accuracy = model1.evaluate(x_test,  y_test, verbose=2)
+    # since we don't care about results for this test...but if you do, un-commment the following line and output the results.
+    # results_accuracy = model1.evaluate(x_test,  y_test, verbose=2)
+
+    # clear the session so we don't get segmentation faults in later tests
+    tf.keras.backend.clear_session()
 
     return how_long(start, stop)
 
@@ -92,7 +94,11 @@ def test2(epochs=10, activation_f='relu'):
     model2.fit(train_images, train_labels, epochs=epochs)
     stop = timeit.default_timer()
 
-    test_loss, test_acc = model2.evaluate(test_images,  test_labels, verbose=0)
+    # we don't care about results for this test, if you do, un-comment the following line and return the results along with the run time
+    # test_loss, test_acc = model2.evaluate(test_images,  test_labels, verbose=0)
+
+    # clean up
+    tf.keras.backend.clear_session()
 
     return how_long(start, stop)
 
@@ -147,12 +153,18 @@ def test3(epochs=10, feature_extractor_model='https://tfhub.dev/tensorflow/resne
                     callbacks=[batch_stats_callback])
     stop = timeit.default_timer()
 
+    # clean up
+    tf.keras.backend.clear_session()
+
     return how_long(start, stop)
 
 def test4(batch_size=32, classifier_model='https://tfhub.dev/tensorflow/resnet_50/classification/1'):
     # Generic CNN inference test
     # https://tfhub.dev/tensorflow/resnet_50/classification/1
     # https://tfhub.dev/google/tf2-preview/mobilenet_v2/classification/4
+    # https://tfhub.dev/tensorflow/efficientnet/b0/classification/1
+    # https://tfhub.dev/google/imagenet/inception_v3/classification/4
+
     IMAGE_SHAPE = (224, 224)
 
     classifier = tf.keras.Sequential([
@@ -185,5 +197,12 @@ def test4(batch_size=32, classifier_model='https://tfhub.dev/tensorflow/resnet_5
     start = timeit.default_timer()
     result_batch = classifier.predict(inference_ds)
     stop = timeit.default_timer()
+
+    # clean up
+    del result_batch
+    del classifier
+    del inference_ds
+    del data_root
+    tf.keras.backend.clear_session()
 
     return how_long(start, stop)
