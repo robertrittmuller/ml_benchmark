@@ -1,8 +1,11 @@
 # each of the ML benchmark tests
+from os import wait
 import tensorflow as tf
+from tensorflow.python.data.ops.dataset_ops import AUTOTUNE
 import tensorflow_hub as hub
 import timeit
 import sys
+from time import sleep
 
 class CollectBatchStats(tf.keras.callbacks.Callback):
   def __init__(self):
@@ -102,11 +105,11 @@ def test2(epochs=10, activation_f='relu'):
 
     return how_long(start, stop)
 
-def test3(epochs=10, feature_extractor_model='https://tfhub.dev/tensorflow/resnet_50/feature_vector/1'):
+def test3(epochs=5, feature_extractor_model='https://tfhub.dev/tensorflow/resnet_50/feature_vector/1'):
     # Test training a normal off-the-shelf CNN
     # Good test networks are    https://tfhub.dev/google/tf2-preview/mobilenet_v2/feature_vector/4
     #                           https://tfhub.dev/tensorflow/resnet_50/feature_vector/1'
-    batch_size = 32
+    batch_size = 8
     img_height = 224
     img_width = 224
     
@@ -158,12 +161,15 @@ def test3(epochs=10, feature_extractor_model='https://tfhub.dev/tensorflow/resne
 
     return how_long(start, stop)
 
-def test4(batch_size=32, classifier_model='https://tfhub.dev/tensorflow/resnet_50/classification/1'):
+def test4(batch_size=4, classifier_model='https://tfhub.dev/tensorflow/resnet_50/classification/1'):
     # Generic CNN inference test
     # https://tfhub.dev/tensorflow/resnet_50/classification/1
     # https://tfhub.dev/google/tf2-preview/mobilenet_v2/classification/4
     # https://tfhub.dev/tensorflow/efficientnet/b0/classification/1
     # https://tfhub.dev/google/imagenet/inception_v3/classification/4
+
+    # generate some idle to let the system catch up before starting...
+    sleep(60)
 
     IMAGE_SHAPE = (224, 224)
 
@@ -191,7 +197,8 @@ def test4(batch_size=32, classifier_model='https://tfhub.dev/tensorflow/resnet_5
     normalization_layer = tf.keras.layers.experimental.preprocessing.Rescaling(1./255)
     inference_ds = inference_ds.map(lambda x, y: (normalization_layer(x), y))
 
-    AUTOTUNE = tf.data.experimental.AUTOTUNE
+    # AUTOTUNE = tf.data.experimental.AUTOTUNE
+    AUTOTUNE = batch_size
     inference_ds = inference_ds.cache().prefetch(buffer_size=AUTOTUNE)
 
     start = timeit.default_timer()
