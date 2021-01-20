@@ -130,3 +130,7 @@ dmypy.json
 
 # data files we don't want to include
 .csv
+
+# Misc
+.vscode
+.model_cache
