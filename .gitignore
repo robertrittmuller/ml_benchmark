@@ -134,3 +134,4 @@ dmypy.json
 # Misc
 .vscode
 .model_cache
+.DS_Store
