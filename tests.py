@@ -1,6 +1,7 @@
 # each of the ML benchmark tests
 from os import wait
 import tensorflow as tf
+from tensorflow import keras
 from tensorflow.python.data.ops.dataset_ops import AUTOTUNE
 import tensorflow_hub as hub
 import timeit
@@ -208,6 +209,52 @@ def test4(batch_size=4, classifier_model='https://tfhub.dev/tensorflow/resnet_50
     # clean up
     del result_batch
     del classifier
+    del inference_ds
+    del data_root
+    tf.keras.backend.clear_session()
+
+    return how_long(start, stop)
+
+def test5(batch_size=4):
+    xception_model = keras.applications.Xception(
+    weights='imagenet',  # Load weights pre-trained on ImageNet.
+    input_shape=(299, 299, 3), # setting this to 224 x 224 to match other models.
+    include_top=True)  # Include the ImageNet classifier at the top because we are testing inference.
+
+    # Freeze base model
+    xception_model.trainable = False
+
+    # get some data
+    data_root = tf.keras.utils.get_file(
+        'flower_photos','https://storage.googleapis.com/download.tensorflow.org/example_images/flower_photos.tgz',
+        untar=True)
+    
+    # this should be modified if the model choosen supports a different input size
+    img_height = 299
+    img_width = 299
+
+    inference_ds = tf.keras.preprocessing.image_dataset_from_directory(
+        str(data_root),
+        validation_split=None,
+        subset=None,
+        seed=123,
+        image_size=(img_height, img_width),
+        batch_size=batch_size)
+
+    normalization_layer = tf.keras.layers.experimental.preprocessing.Rescaling(1./255)
+    inference_ds = inference_ds.map(lambda x, y: (normalization_layer(x), y))
+
+    # AUTOTUNE = tf.data.experimental.AUTOTUNE
+    AUTOTUNE = batch_size
+    inference_ds = inference_ds.cache().prefetch(buffer_size=AUTOTUNE)
+
+    start = timeit.default_timer()
+    result_batch = xception_model.predict(inference_ds)
+    stop = timeit.default_timer()
+
+    # clean up
+    del result_batch
+    del xception_model
     del inference_ds
     del data_root
     tf.keras.backend.clear_session()

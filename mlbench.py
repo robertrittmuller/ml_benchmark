@@ -7,9 +7,10 @@ from tensorflow import keras
 from tensorflow.keras import layers
 from datetime import datetime
 from tensorflow.python.compiler.mlcompute import mlcompute
-from tests import test1, test2, test3, test4, display_output, how_long
+from tests import test1, test2, test3, test4, test5, display_output, how_long
 
 # TODO: Add NLP tests!
+# TODO: Add object detection model tests 
 
 # Apple M1 force CPU/GPU device.
 # mlcompute.set_mlc_device(device_name='gpu') # Available options are 'cpu', 'gpu', and ‘any'.
@@ -26,6 +27,8 @@ envData['runTime'] = datetime.time(datetime.now())
 # start of MNIST test -----------------------------------------------------------------
 print('Starting machine learning performance tests on ' + str(envData['machineType']) + '...')
 
+# NOTE: Due to segmentation faults with Resenet50 on Apple M1, those tests are commented out. 
+
 start = timeit.default_timer()
 display_output(envData,'Simple Neural Network Test', test1(5))              # accepts batch size
 display_output(envData,'RELU Activation Test', test2(5, 'relu'))            # accepts batch size and activation function type; relu, tanh, sigmoid
@@ -41,7 +44,8 @@ display_output(envData,'EfficientNet-B0 Inference Test (Batch size = 1)', test4(
 display_output(envData,'EfficientNet-B0 Inference Test (Batch size = 4)', test4(4, classifier_model="https://tfhub.dev/tensorflow/efficientnet/b0/classification/1"))
 display_output(envData,'MobilenetV2 Inference Test (Batch size = 1)', test4(1, classifier_model="https://tfhub.dev/google/tf2-preview/mobilenet_v2/classification/4"))
 display_output(envData,'MobilenetV2 Inference Test (Batch size = 4)', test4(4, classifier_model="https://tfhub.dev/google/tf2-preview/mobilenet_v2/classification/4"))
-
+display_output(envData,'Xception Inference Test (Batch size = 1)', test5(1))
+display_output(envData,'Xception Inference Test (Batch size = 4)', test5(4))
 stop = timeit.default_timer()
 
 # Final time
