@@ -1,5 +1,4 @@
 # each of the ML benchmark tests
-from os import wait
 import tensorflow as tf
 from tensorflow import keras
 from tensorflow.python.data.ops.dataset_ops import AUTOTUNE
@@ -258,5 +257,6 @@ def test5(batch_size=4):
     del inference_ds
     del data_root
     tf.keras.backend.clear_session()
+    tf.compat.v1.reset_default_graph()
 
     return how_long(start, stop)
