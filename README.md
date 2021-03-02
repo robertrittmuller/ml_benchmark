@@ -22,7 +22,7 @@ Make sure to follow the installation instructions that cover setting up a virtua
 
     Architecture    Test Name	                                    Result
     x86_64	        Simple Neural Network Test	                    00:26.9
-    x86_64	        RELU Activation Test	                        00:37.4
+    x86_64	        RELU Activation Test                            00:37.4
     x86_64	        TANH Activation Test	                        00:37.2
     x86_64	        SIGMOID Activation Test	                        00:37.1
     x86_64	        Resnet50 Fine Tuning Test	                    00:19.4
