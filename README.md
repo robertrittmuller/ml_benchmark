@@ -22,14 +22,14 @@ Make sure to follow the installation instructions that cover setting up a virtua
 
     Architecture    Test Name	                                    Result
     x86_64	        Simple Neural Network Test	                    00:26.9
-    x86_64	        RELU Activation Test                            00:37.4
-    x86_64	        TANH Activation Test	                        00:37.2
-    x86_64	        SIGMOID Activation Test	                        00:37.1
+    x86_64	        RELU Activation Test                                00:37.4
+    x86_64	        TANH Activation Test	                            00:37.2
+    x86_64	        SIGMOID Activation Test	                            00:37.1
     x86_64	        Resnet50 Fine Tuning Test	                    00:19.4
-    x86_64	        MobilenetV2 Fine Tuning Test                    00:16.3
-    x86_64	        Inception V3 Inference Test (Batch size = 4)    00:19.1
+    x86_64	        MobilenetV2 Fine Tuning Test                        00:16.3
+    x86_64	        Inception V3 Inference Test (Batch size = 4)        00:19.1
     x86_64	        Resnet 50 Inference Test (Batch size = 4)	    00:19.5
-    x86_64	        EfficientNet-B0 Inference Test (Batch size = 4) 00:16.8
+    x86_64	        EfficientNet-B0 Inference Test (Batch size = 4)     00:16.8
     x86_64	        MobilenetV2 Inference Test (Batch size = 4)	    00:19.3
     x86_64	        Xception Inference Test (Batch size = 4)	    00:22.8
 
